@@ -25,9 +25,9 @@ public class Pronostico {
 	//Esta funcion devuelve 1 si se pronostico que gane el partido el equipo 1, 0.5 si empatan y 0 si gano el equipo 2
 	public float getPronostico(String partido) {
 		String[] partido_split = partido.split(",");
-		if (partido_split[1] == "X") {
+		if (partido_split[1].equals("X")) {
 			return 1;
-		}else if(partido_split[2] == "X"){
+		}else if(partido_split[2].equals("X")){
 			return (float) 0.5;
 		}else {
 			return 0;

@@ -31,6 +31,7 @@ public class PronosticoDeportivo {
 		
 		//se iteran ambas listas con un ciclo for y se evalua si los valores de retorno son iguales, en caso de serlo se suma un punto
 		for(int i=0;i<resultados.size();i++) {
+			//Primero obtengo la informacion de la posicion del array especificada con i o .get y luego comparo ambos vectores 
 			if(res.getResultado(resultados.get(i)) == prn.getPronostico(pronosticos.get(i))) {
 				puntaje +=1;
 			}

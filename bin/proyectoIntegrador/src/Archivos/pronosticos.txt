@@ -1,0 +1,15 @@
+Equipo 1,Gana 1,Empate, Gana 2,Equipo 2
+Barracas Central,X, , ,Independiente
+Instituto,X, , ,Atlético Tucuman
+Argentinos Juniors,X, , ,Arsenal
+San Lorenzo,X, , ,Gimnasia
+Defensa y Justicia,X, , ,Talleres
+Central Córdoba,X, , ,Tigre
+Belgrano,X, , ,Lanus
+Racing,X, , ,Sarmiento
+River,X, , ,Godoy Cruz
+Estudiantes,X, , ,Huracan
+Rosario Central,X, , ,Union
+Banfield,X, , ,Boca
+Colon,X, , ,Newells
+Velez,X, , ,Platense

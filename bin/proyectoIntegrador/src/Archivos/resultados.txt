@@ -1,0 +1,15 @@
+Equipo 1,Cant. Goles Equipo 1,Cant. Goles 2,Equipo 2
+Barracas Central,1,1,Independiente
+Instituto,1,1,Atlético Tucuman
+Argentinos Juniors,1,1,Arsenal
+San Lorenzo,4,0,Gimnasia
+Defensa y Justicia,1,1,Talleres
+Central Córdoba,2,0,Tigre
+Belgrano,0,0,Lanus
+Racing,1,0,Sarmiento
+River,3,0,Godoy Cruz
+Estudiantes,2,1,Huracan
+Rosario Central,1,1,Union
+Banfield,1,0,Boca
+Colon,1,1,Newells
+Velez,1,1,Platense

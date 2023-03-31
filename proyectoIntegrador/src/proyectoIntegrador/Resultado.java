@@ -10,12 +10,31 @@ public class Resultado {
 	
 	//se crea la variable de instancia resultados
 	private List<String> resultados;
+	protected int Ronda;
+	protected int Goles1;
+	protected int Goles2;
+	protected int Equipo1;
+	protected int Equipo2;
 	
 	public Resultado(Path resultados) {
 		//Resultado(resultados) es el constructor de la clase resultado
 		//dentro del bloque try se leen las lineas del archivo resultados.txt y se remueve la primer linea o cabecera, en caso que no se pueda leer el archivo se imprime el error
 		try {
 			this.resultados = Files.readAllLines(resultados,StandardCharsets.UTF_8);
+			String[] Encabezado = this.resultados.get(0).split(",");
+			for (int i=0; i<Encabezado.length;i++) {
+				if(Encabezado[i].equals("Ronda")) {
+					Ronda = i;
+				}else if (Encabezado[i].equals("Cant. Goles Equipo 1")){
+					Goles1 = i;
+				}else if (Encabezado[i].equals("Cant. Goles Equipo 2")){
+					Goles2 = i;
+				}else if (Encabezado[i].equals("Equipo 1")){
+					Equipo1 = i;
+				}else if (Encabezado[i].equals("Equipo 2")){
+					Equipo2 = i;
+				}
+			}
 			this.resultados.remove(0);
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -25,34 +44,10 @@ public class Resultado {
 	
 	//dentro de getResultados se retorna el valor de la variable de instancia resultados
 	public List<String> getResultados(){
-		return resultados;
+		return this.resultados;
 	}
 	
 	
-	public float getResultado(String partido) throws ResultadosError {
-		
-		//este metodo recibe una cadena de texto como parametro, la misma se divide en un vector utilizando las comas como divisor
-		//se evaluan los goles por equipos y se retorna un valor dependiendo si es empate o que equipo fue el ganador
-		//equipo1 = 1; equipo2 = 0; empate = 0.5
-		String[] partido_split = partido.split(",");
-		if (partido_split.length != 5) {
-			throw new ResultadosError(partido_split);
-		}
-		try {
-			int GolesEquipo1 = Integer.parseInt(partido_split[1]);
-			int GolesEquipo2 = Integer.parseInt(partido_split[2]);
-			if (GolesEquipo1 > GolesEquipo2) {
-				return 1;
-			}else if(GolesEquipo1 == GolesEquipo2){
-				return (float) 0.5;
-			}else {
-				return 0;
-			}
-		}catch(NumberFormatException e) {
-			throw new ResultadosError(partido_split);
-		}
-		
-		
-	}
+
 	
 }

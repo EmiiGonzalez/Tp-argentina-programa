@@ -13,10 +13,12 @@ public class Pronostico {
 	//variable de instancia
 	private List<String> pronosticos;
 	//Los enteros se colocan para funcionar como índices de cada una de las columnas del archivo
-	private int Participante;
-	private int Gana1;
-	private int Gana2;
-	private int Empate;
+	protected int Participante;
+	protected int Gana1;
+	protected int Gana2;
+	protected int Empate;
+	protected int Equipo1;
+	protected int Equipo2;
 	
 	public Pronostico(Path pronosticos) {
 		//Pronostico(pronosticos) es el constructor de la clase Pronostico
@@ -33,6 +35,10 @@ public class Pronostico {
 					Gana2 = i;
 				}else if (Encabezado[i].equals("Empate")){
 					Empate = i;
+				}else if (Encabezado[i].equals("Equipo 1")){
+					Equipo1 = i;
+				}else if (Encabezado[i].equals("Equipo 2")){
+					Equipo2 = i;
 				}
 			}
 			this.pronosticos.remove(0);
@@ -58,23 +64,6 @@ public class Pronostico {
 		return participantes;
 	}
 	
-	public String getParticipante(String partido) {
-		String[] partido_split = partido.split(",");
-		return partido_split[this.Participante];
-	}
-	
-	//Esta funcion devuelve 1 si se pronostico que gane el partido el equipo 1, 0.5 si empatan y 0 si gano el equipo 2
-	//es igual al metodo usado para Resultado
-	public float getPronostico(String partido) {
-		String[] partido_split = partido.split(",");
-		if (partido_split[Gana1].equals("X")) {
-			return 1;
-		}else if(partido_split[Empate].equals("X")){
-			return (float) 0.5;
-		}else {
-			return 0;
-		}
-	}
-	
 	
 }
+	

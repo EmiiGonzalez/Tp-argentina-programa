@@ -1,6 +1,6 @@
 Participante,Equipo 1,Gana 1,Empate,Gana 2,Equipo 2
 Gonzalo,Barracas Central,X, , ,Independiente
-Gonzalo,Instituto,X, , ,Atlético Tucuman
+Gonzalo,Instituto,X, , ,Atlético Tucumán
 Gonzalo,Argentinos Juniors,X, , ,Arsenal
 Gonzalo,San Lorenzo,X, , ,Gimnasia
 Gonzalo,Defensa y Justicia,X, , ,Talleres
@@ -35,7 +35,7 @@ Gonzalo,Godoy Cruz,X, , ,Belgrano
 Gonzalo,Atlético Tucumán,X, , ,Barracas Central
 Gonzalo,Gimnasia,X, , ,Estudiantes
 Gonzalo,Boca,X, , ,Instituto
-Gonzalo,Sarmiento, , ,X,River
+Gonzalo,Sarmiento,X, , ,River
 Gonzalo,Talleres,X, , ,Banfield
 Gonzalo,Newells,X, , ,San Lorenzo
 Gonzalo,Lanus,X, , ,Argentinos

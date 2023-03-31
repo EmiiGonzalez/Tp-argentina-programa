@@ -18,11 +18,11 @@ public class PronosticoDeportivo {
 	
 	
 	//metodo para verificar si se acerto o no y que retorne un puntaje en base a esto
-	public void Puntaje() {
+	public void Puntaje(){
 		
 		//se instancian los objetos pronostico(prn) y resultado (res) 
-		Pronostico prn = new Pronostico(pronostico);
-		Resultado res = new Resultado(resultado);
+		PronosticoPartido prn = new PronosticoPartido(this.pronostico);
+		ResultadoPartido res = new ResultadoPartido(this.resultado);
 		
 		
 		//se crean dos listas/vectores/arrays con los resultados y pronostico  
@@ -36,13 +36,18 @@ public class PronosticoDeportivo {
 		}
 		
 		//se iteran ambas listas con un ciclo for y se evalua si los valores de retorno son iguales, en caso de serlo se suma un punto
-		for(int i=0;i<resultados.size();i++) {
+		for(int i=0;i<pronosticos.size();i++) {
 			//Primero obtengo la informacion de la posicion del array especificada con i o .get y luego comparo ambos vectores 
 			try {
-				if(res.getResultado(resultados.get(i)) == prn.getPronostico(pronosticos.get(i))) {
-					puntaje.put(prn.getParticipante(pronosticos.get(i)), puntaje.get(prn.getParticipante(pronosticos.get(i)))+1);
+				prn.setPartido(pronosticos.get(i));
+				for(int j=0;j<resultados.size();j++) {
+					res.setPartido(resultados.get(j));
+					if((prn.getEquipo1().equals(res.getEquipo1())) && (prn.getEquipo2().equals(res.getEquipo2())) && (res.getResultado() == prn.getPronostico())) {
+						puntaje.put(prn.getParticipante(), puntaje.get(prn.getParticipante())+1);
+						break;
+					}
 				}
-			} catch (ResultadosError e) {
+			} catch (ResultadosError | PronosticosError e) {
 				e.printStackTrace();
 			}
 		}

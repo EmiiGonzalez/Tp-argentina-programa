@@ -29,21 +29,30 @@ public class Resultado {
 	}
 	
 	
-	public float getResultado(String partido) {
+	public float getResultado(String partido) throws ResultadosError {
 		
 		//este metodo recibe una cadena de texto como parametro, la misma se divide en un vector utilizando las comas como divisor
 		//se evaluan los goles por equipos y se retorna un valor dependiendo si es empate o que equipo fue el ganador
 		//equipo1 = 1; equipo2 = 0; empate = 0.5
 		String[] partido_split = partido.split(",");
-		int GolesEquipo1 = Integer.parseInt(partido_split[1]);
-		int GolesEquipo2 = Integer.parseInt(partido_split[2]);
-		if (GolesEquipo1 > GolesEquipo2) {
-			return 1;
-		}else if(GolesEquipo1 == GolesEquipo2){
-			return (float) 0.5;
-		}else {
-			return 0;
+		if (partido_split.length != 5) {
+			throw new ResultadosError(partido_split);
 		}
+		try {
+			int GolesEquipo1 = Integer.parseInt(partido_split[1]);
+			int GolesEquipo2 = Integer.parseInt(partido_split[2]);
+			if (GolesEquipo1 > GolesEquipo2) {
+				return 1;
+			}else if(GolesEquipo1 == GolesEquipo2){
+				return (float) 0.5;
+			}else {
+				return 0;
+			}
+		}catch(NumberFormatException e) {
+			throw new ResultadosError(partido_split);
+		}
+		
+		
 	}
 	
 }

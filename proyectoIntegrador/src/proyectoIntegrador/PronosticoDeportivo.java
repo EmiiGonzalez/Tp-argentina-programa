@@ -1,7 +1,9 @@
 package proyectoIntegrador;
 
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PronosticoDeportivo {
 	//variables de iniciacion
@@ -22,18 +24,26 @@ public class PronosticoDeportivo {
 		Pronostico prn = new Pronostico(pronostico);
 		Resultado res = new Resultado(resultado);
 		
-		//inicializacion de variable puntaje para contar aciertos
-		int puntaje = 0;
 		
 		//se crean dos listas/vectores/arrays con los resultados y pronostico  
 		List <String> resultados = res.getResultados();
 		List <String> pronosticos = prn.getPronosticos();
+		Map<String, Integer> puntaje = new HashMap<String, Integer>();
+		List<String> participantes = prn.getParticipantes(); 
+		
+		for (int i=0; i<participantes.size();i++) {
+			puntaje.put(participantes.get(i), 0);
+		}
 		
 		//se iteran ambas listas con un ciclo for y se evalua si los valores de retorno son iguales, en caso de serlo se suma un punto
 		for(int i=0;i<resultados.size();i++) {
 			//Primero obtengo la informacion de la posicion del array especificada con i o .get y luego comparo ambos vectores 
-			if(res.getResultado(resultados.get(i)) == prn.getPronostico(pronosticos.get(i))) {
-				puntaje +=1;
+			try {
+				if(res.getResultado(resultados.get(i)) == prn.getPronostico(pronosticos.get(i))) {
+					puntaje.put(prn.getParticipante(pronosticos.get(i)), puntaje.get(prn.getParticipante(pronosticos.get(i)))+1);
+				}
+			} catch (ResultadosError e) {
+				e.printStackTrace();
 			}
 		}
 		System.out.println(puntaje);

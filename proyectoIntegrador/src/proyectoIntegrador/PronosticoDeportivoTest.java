@@ -24,7 +24,7 @@ class PronosticoDeportivoTest {
 	@Test
 	void testPuntaje1() {
 		int Puntaje = Test.Puntaje().get(Test.getParticipantes().get(0));
-		int PuntajeCorrecto = 6;;
+		int PuntajeCorrecto = 6;
 		assertTrue(Puntaje==PuntajeCorrecto);
 	}
 	

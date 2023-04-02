@@ -16,9 +16,15 @@ public class PronosticoDeportivo {
 		this.pronostico = pronostico;
 	}
 	
+	public List<String> getParticipantes(){
+		PronosticoPartido prn = new PronosticoPartido(this.pronostico);
+		return prn.getParticipantes();
+		
+	}
+	
 	
 	//metodo para verificar si se acerto o no y que retorne un puntaje en base a esto
-	public void Puntaje(){
+	public Map<String,Integer> Puntaje(){
 		
 		//se instancian los objetos pronostico(prn) y resultado (res) 
 		PronosticoPartido prn = new PronosticoPartido(this.pronostico);
@@ -51,6 +57,7 @@ public class PronosticoDeportivo {
 				e.printStackTrace();
 			}
 		}
-		System.out.println(puntaje);
+		return puntaje;
+		
 	}
 }

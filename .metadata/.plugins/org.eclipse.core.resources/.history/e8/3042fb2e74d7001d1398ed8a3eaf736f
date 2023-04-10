@@ -1,0 +1,5 @@
+package exepciones;
+
+public class ErrorEnLecturaDeDatosException extends Exception {
+
+}

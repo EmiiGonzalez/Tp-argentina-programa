@@ -31,7 +31,7 @@ public class Resultado {
 
 
 
-	public void setPuntajeApostador(int gana, int pierde) throws ErrorEnCargaDeDatos {
+	public void setPuntajeApostador(int gana, int pierde ) throws ErrorEnCargaDeDatos {
 
 		
 		for (Partido partidoResultado : this.getRondaResultado().getPartidos()) {
@@ -60,21 +60,14 @@ public class Resultado {
 					persona.setNombre(nombreParticipante);								//al objeto persona creado le asigno el nombre obtenido en pronostico
 					persona.setRonda(rondaPartido);										//al objeto persona creado le asigno la ronda obtenido en resultado
 					
-					if (resultadoApuesta) {											//si el resultado de la apuesta coincide, sumo los puntos enviados por parametros
-						
-						persona.setPuntaje(1);
-						/*
-						System.out.println("*******");
-						System.out.println(nombreParticipante);
-						System.out.println("Resultado: " + ganadorR);
-						System.out.println("Pronostico: "+ ganadorP);
-						System.out.println("idPartidoP: " + idPartidoP);
-						System.out.println("idPartidoR: " + idPartidoR);
-						System.out.println("Gano");
-						*/
+					if (resultadoApuesta) {											//si el resultado de la apuesta coincide o no, sumo o resto los puntos enviados por parametros segun corresponda
+						persona.setPuntaje(gana);	
+						iterador.remove();											//se remueve la linea para liberar memoria y tiempo de ejecucion
+					}	else {
+						persona.setPuntaje(pierde);
 						iterador.remove();
 					}
-					this.getApuestasResultado().add(persona);
+					this.getApuestasResultado().add(persona);						//se agrega la persona a la nueva lista con los resultados 
 					
 				}
 				
@@ -84,25 +77,25 @@ public class Resultado {
 			
 		}	
 				
-		setPuntajeFinalLista();
+		setPuntajeFinalLista();		//llamo al metodo privado setPuntajeFinalLista para que me cree una nueva lista de tipo hashmap filtrandome por participante unico 
 	}
 	
 	
-	public void setPuntajeFinalLista() {
+	private void setPuntajeFinalLista() {			//el metodo es privado para que no se pueda acceder desde afuera 
 		
-		for (Persona p : this.getApuestasResultado()) {
-			int id = p.getId();
+		for (Persona p : this.getApuestasResultado()) {						//itero la lista con el resultado de cada partido por persona
+			int id = p.getId();												//obtengo el id de la persona
 			
-			if(getPuntajeFinalLista().containsKey(id)) {
+			if(getPuntajeFinalLista().containsKey(id)) {					//si el map contiene el id
 				
-				Persona personaMap = getPuntajeFinalLista().get(id);
+				Persona personaMap = getPuntajeFinalLista().get(id);		// obtengo el objeto persona del map utilizando el id como referencia de indice llave:valor
 				
-				int puntosPersonaLista = p.getPuntaje();
-				int puntosPersonaMap = personaMap.getPuntaje();
+				int puntosPersonaLista = p.getPuntaje();					// obtengo el puntaje de la persona iterada
+				int puntosPersonaMap = personaMap.getPuntaje();				// obtengo el puntaje de la persona del map ya filtrada
 				
-				personaMap.setPuntaje(puntosPersonaMap + puntosPersonaLista);
-			}	else {
-				getPuntajeFinalLista().put(id, p);
+				personaMap.setPuntaje(puntosPersonaMap + puntosPersonaLista);	//seteo el nuevo puntaje de la persona del map 
+			}	else {														//si el id no existe en el map
+				getPuntajeFinalLista().put(id, p);							//agrego al map a la nueva persona, enviandole como llave el id y el objeto Persona como valor(este contiene el puntaje inicial)
 			}
 			
 		}

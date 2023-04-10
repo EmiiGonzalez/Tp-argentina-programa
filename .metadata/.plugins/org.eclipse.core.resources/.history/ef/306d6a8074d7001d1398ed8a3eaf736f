@@ -1,0 +1,9 @@
+package exepciones;
+
+public class ErrorEnLecturaDeDatosException extends Exception {
+		
+	public ErrorEnLecturaDeDatosException(String mensaje, Throwable causa) {
+        super(mensaje, causa);
+    }
+	
+}

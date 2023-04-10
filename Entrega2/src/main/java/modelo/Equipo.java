@@ -3,6 +3,9 @@ package modelo;
 import lombok.Data;
 
 @Data
+
+//existiran dos tipos de objeto Equipo, uno con datos del archivo pronostico y otro del archivo resultado
+
 public class Equipo {
 	private String nombre;		//recibe el nombre
 	private int goles;			//recibe la cantidad de goles

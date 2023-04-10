@@ -1,0 +1,9 @@
+package modelo;
+
+public class Pronostico {
+	
+	Partido partido = new Partido();
+	String linea;
+	Equipo equipo1 = new Equipo();
+	Equipo equipo2 = new Equipo();
+}

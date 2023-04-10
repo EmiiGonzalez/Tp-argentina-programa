@@ -1,0 +1,7 @@
+package exepciones;
+
+public class ErrorEnLecturaDeDatosPronostico extends Exception{
+	public ErrorEnLecturaDeDatosPronostico(String mensaje) {
+        super(mensaje);
+    }
+}

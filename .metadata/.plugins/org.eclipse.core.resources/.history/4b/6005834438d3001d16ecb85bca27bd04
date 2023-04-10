@@ -1,0 +1,26 @@
+package modelo;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+
+public class TpGrupo6 {
+
+	public static void main(String[] args) {
+		
+		try {
+			List<String> lineas = Files.readAllLines(Paths.get(".\\src\\main\\java\\Archivos\\resultados.txt"), StandardCharsets.ISO_8859_1);
+			for (int i = 1; i < lineas.size(); i++) {
+			    String linea = lineas.get(i);
+			    System.out.println(linea);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+}

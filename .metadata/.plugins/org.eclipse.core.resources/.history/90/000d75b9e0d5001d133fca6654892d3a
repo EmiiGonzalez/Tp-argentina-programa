@@ -1,0 +1,31 @@
+package modelo;
+
+import lombok.Data;
+
+@Data
+public class Persona {
+	private String nombre;
+	private int puntaje;
+	private int aciertos;
+	private int cantidadDeApuestas;
+	
+	public Persona(String nombre) {
+		this.nombre = nombre;
+	}
+
+	public Persona() {
+
+	}
+
+	public void setPuntaje(boolean puntaje) {
+		if (puntaje) {
+			this.puntaje += 1;
+			this.aciertos +=1;
+		} else {
+			cantidadDeApuestas +=1;
+		}
+	}
+	
+	
+	
+}

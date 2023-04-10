@@ -1,0 +1,37 @@
+package modelo;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+
+public class TpGrupo6 {
+
+	public static void main(String[] args) {
+		
+		try {
+			List<String> lineas = Files.readAllLines(Paths.get(".\\src\\main\\java\\Archivos\\resultados.txt"), StandardCharsets.ISO_8859_1);
+			for (int i = 1; i < lineas.size(); i++) {
+			    String linea = lineas.get(i);
+			    String nombreEquipo1 = linea.split(",")[1];
+			    int golesEquipo1 = Integer.parseInt(linea.split(",")[2]);
+			    String nombreEquipo2 = linea.split(",")[4];
+			    int golesEquipo2 = Integer.parseInt(linea.split(",")[3]);
+			    int ronda = Integer.parseInt(linea.split(",")[0]);
+			    
+			    Equipo equipo1 = new Equipo(nombreEquipo1, golesEquipo1);
+			    Equipo equipo2 = new Equipo(nombreEquipo2, golesEquipo2);
+			    
+			    Partido partido = new Partido(equipo1, equipo2);
+
+			    
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+}

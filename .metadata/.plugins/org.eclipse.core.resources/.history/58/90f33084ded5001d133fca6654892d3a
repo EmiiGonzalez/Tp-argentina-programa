@@ -1,0 +1,5 @@
+package exepciones;
+
+public class ErrorEnLecturaDeDatosPronostico {
+
+}

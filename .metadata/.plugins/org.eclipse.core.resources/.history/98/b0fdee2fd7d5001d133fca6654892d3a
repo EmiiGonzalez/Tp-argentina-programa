@@ -1,0 +1,25 @@
+package modelo;
+
+import lombok.Data;
+
+@Data
+public class Persona {
+	private String nombre;
+	private int puntaje;
+	
+	public Persona(String nombre, int puntaje) {
+		this.nombre = nombre;
+		this.puntaje = puntaje;
+	}
+
+	public Persona() {
+
+	}
+
+	public void setPuntaje(int puntaje) {
+		this.puntaje += puntaje;
+	}
+	
+	
+	
+}

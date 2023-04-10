@@ -1,0 +1,57 @@
+Participante,Equipo 1,Gana 1,Empate,Gana 2,Equipo 2,Id Partido,Id persona
+Gonzalo,Barracas Central,X, , ,Independiente,1,1
+Gonzalo,Instituto,X, , ,Atlético Tucumán,2,1
+Gonzalo,Argentinos Juniors,X, , ,Arsenal,3,1
+Gonzalo,San Lorenzo,X, , ,Gimnasia,4,1
+Gonzalo,Defensa y Justicia,X, , ,Talleres,5,1
+Gonzalo,Central Córdoba,X, , ,Tigre,6,1
+Gonzalo,Belgrano,X, , ,Lanus,7,1
+Gonzalo,Racing,X, , ,Sarmiento,8,1
+Gonzalo,River,X, , ,Godoy Cruz,9,1
+Gonzalo,Estudiantes,X, , ,Huracan,10,1
+Gonzalo,Rosario Central,X, , ,Union,11,1
+Gonzalo,Banfield,X, , ,Boca,12,1
+Gonzalo,Colon,X, , ,Newells,13,1
+Gonzalo,Velez,X, , ,Platense,14,1
+Emiliano,Barracas Central, ,X, ,Independiente,1,2
+Emiliano,Instituto, , ,X,Atlético Tucuman,2,2
+Emiliano,Argentinos Juniors,X, , ,Arsenal,3,2
+Emiliano,San Lorenzo, , ,X,Gimnasia,4,2
+Emiliano,Defensa y Justicia,X, , ,Talleres,5,2
+Emiliano,Central Córdoba,X, , ,Tigre,6,2
+Emiliano,Belgrano, , ,X,Lanus,7,2
+Emiliano,Racing,X, , ,Sarmiento,8,2
+Emiliano,River, ,X, ,Godoy Cruz,9,2
+Emiliano,Estudiantes,X, , ,Huracan,10,2
+Emiliano,Rosario Central,X, , ,Union,11,2
+Emiliano,Banfield, , ,X,Boca,12,2
+Emiliano,Colon, , ,X,Newells,13,2
+Emiliano,Velez,X, , ,Platense,14,2
+Gonzalo,Unión,X, , ,Racing,15,1
+Gonzalo,Arsenal,X, , ,Tigre,16,1
+Gonzalo,Independiente,X, , ,Colón,17,1
+Gonzalo,Platense,X, , ,Defensa y Justicia,18,1
+Gonzalo,Godoy Cruz,X, , ,Belgrano,19,1
+Gonzalo,Atlético Tucumán,X, , ,Barracas Central,20,1
+Gonzalo,Gimnasia,X, , ,Estudiantes,21,1
+Gonzalo,Boca,X, , ,Instituto,22,1
+Gonzalo,Sarmiento,X, , ,River,23,1
+Gonzalo,Talleres,X, , ,Banfield,24,1
+Gonzalo,Newells,X, , ,San Lorenzo,25,1
+Gonzalo,Lanus,X, , ,Argentinos,26,1
+Gonzalo,Huracan,X, , ,Rosario Central,27,1
+Gonzalo,Velez,X, , ,Central Córdoba,28,1
+Emiliano,Unión, ,X, ,Racing,15,2
+Emiliano,Arsenal,X, , ,Tigre,16,2
+Emiliano,Independiente,X, , ,Colón,17,2
+Emiliano,Platense,X, , ,Defensa y Justicia,18,2
+Emiliano,Godoy Cruz,X, , ,Belgrano,19,2
+Emiliano,Atlético Tucumán, ,X, ,Barracas Central,20,2
+Emiliano,Gimnasia, , ,X,Estudiantes,21,2
+Emiliano,Boca,X, , ,Instituto,22,2
+Emiliano,Sarmiento, , ,X,River,23,2
+Emiliano,Talleres, , ,X,Banfield,24,2
+Emiliano,Newells,X, , ,San Lorenzo,25,2
+Emiliano,Lanus, , ,X,Argentinos,26,2
+Emiliano,Huracan,X, , ,Rosario Central,27,2
+Emiliano,Velez,X, , ,Central Córdoba,28,2

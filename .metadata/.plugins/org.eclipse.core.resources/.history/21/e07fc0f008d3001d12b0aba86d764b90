@@ -1,0 +1,18 @@
+package modelo;
+
+import java.util.List;
+
+public class Ronda {
+	private String ronda;
+	private List<Partido> partidos;
+	
+	
+	public Ronda() {
+		
+	}
+	public Ronda(String ronda) {
+		this.ronda = ronda;
+	}
+}
+
+

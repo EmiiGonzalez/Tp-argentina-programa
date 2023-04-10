@@ -1,0 +1,5 @@
+INDEX VERSION 1.132+D:\Desktop\Pronostico de partidos Ar40\.metadata\.plugins\org.eclipse.jdt.core
+1865797976.index
+778793079.index
+1696264553.index
+2665786202.index

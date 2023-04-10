@@ -1,0 +1,19 @@
+package modelo;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Ronda {
+	private String ronda;
+	private List<Partido> partidos;
+	
+	
+	public Ronda() {
+		this.partidos = new ArrayList<Partido>()
+	}
+	public Ronda(String ronda) {
+		this.ronda = ronda;
+	}
+}
+
+

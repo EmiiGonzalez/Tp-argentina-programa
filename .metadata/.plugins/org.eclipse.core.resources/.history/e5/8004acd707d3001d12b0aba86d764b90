@@ -1,0 +1,8 @@
+package modelo;
+
+public class Partido {
+	private Equipo equipo1 = new Equipo();
+	private Equipo equipo2 = new Equipo();
+	private int golesEquipo1;
+	private int golesEquipo1;
+}

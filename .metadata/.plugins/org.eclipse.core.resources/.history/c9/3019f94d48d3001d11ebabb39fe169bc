@@ -1,0 +1,36 @@
+package modelo;
+
+import lombok.Data;
+
+@Data
+public class Pronostico {
+	
+	Partido partido;
+	String linea;
+	Equipo equipo1; 
+	Equipo equipo2; 
+
+	
+	public Pronostico() {
+	}
+	
+	public Pronostico(Partido partido, String linea) {
+		this.partido = partido;
+		this.linea = linea;
+	}
+	
+	public void generarEquipos() {
+		 String nombreEquipo1 = getLinea().split(",")[1];
+		 int golesEquipo1 = Integer.parseInt(getLinea().split(",")[2]);
+		 String nombreEquipo2 = getLinea().split(",")[4];
+		 int golesEquipo2 = Integer.parseInt(getLinea().split(",")[3]);
+		 String ronda = getLinea().split(",")[0];
+		 
+		 this.equipo1 = new Equipo(nombreEquipo1, golesEquipo1);
+		 this.equipo2 = new Equipo(nombreEquipo2, golesEquipo2);
+	}
+	
+	public void generarPartido() {
+		
+	}
+}

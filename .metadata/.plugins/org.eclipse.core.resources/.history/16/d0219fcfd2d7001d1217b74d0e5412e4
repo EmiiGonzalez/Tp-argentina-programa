@@ -1,0 +1,9 @@
+package modelo;
+
+import java.util.List;
+
+public class Fase {
+	
+	private List<Persona> participantesPorFase;
+	
+}

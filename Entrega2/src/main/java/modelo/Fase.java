@@ -1,0 +1,25 @@
+package modelo;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import lombok.Data;
+
+@Data
+public class Fase {
+	private Map <Integer, Persona> puntajeFinalLista = new HashMap<>();
+
+	public Fase(Map<Integer, Persona> puntajeFinalLista) {
+		this.puntajeFinalLista = puntajeFinalLista;
+	}
+
+	public Fase() {
+	}
+
+	
+
+	
+	
+}

@@ -1,0 +1,22 @@
+package modelo;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import lombok.Data;
+
+
+public class Fase {
+	
+	private List<Persona> participantesPorFase = new ArrayList<>();
+
+	public Fase(List<Persona> participantesPorFase) {
+		this.participantesPorFase = participantesPorFase;
+	}
+	
+	public Fase() {
+	}
+	
+	
+	
+}

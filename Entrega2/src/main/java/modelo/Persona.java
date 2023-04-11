@@ -9,18 +9,18 @@ public class Persona {
 	private String nombre;		//nombre
 	private int id;				//id unico
 	private int puntaje = 0;	//puntaje por apuesta
-	private String ronda;		
+	private String fase;		
 	
 	
 	public Persona() {
 	}
 
-	public Persona(String nombre, int id, int puntaje, String ronda) {
+	public Persona(String nombre, int id, int puntaje, String fase) {
 		super();
 		this.nombre = nombre;		
 		this.id = id;				
 		this.puntaje = puntaje;
-		this.ronda = ronda;
+		this.fase = fase;
 	}
 	
 

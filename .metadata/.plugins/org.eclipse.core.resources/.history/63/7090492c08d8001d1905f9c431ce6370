@@ -1,0 +1,30 @@
+package modelo;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import lombok.Data;
+
+@Data
+public class Fase {
+	
+	private Map<Integer, Persona> participantesPorFase = new HashMap<>();
+
+	public Fase(List<Persona> participantesPorFase) {
+		this.participantesPorFase = participantesPorFase;
+	}
+	
+	public Fase() {
+	}
+
+	public List<Persona> getParticipantesPorFase() {
+		return participantesPorFase;
+	}
+
+	public void setParticipantesPorFase(Persona p) {
+		this.getParticipantesPorFase().add(p);
+	}
+	
+	
+	
+}

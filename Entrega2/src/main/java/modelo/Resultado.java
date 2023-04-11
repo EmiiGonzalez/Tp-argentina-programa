@@ -11,12 +11,11 @@ import lombok.Data;
 
 @Data
 public class Resultado {
+	private Fase fase;
 	private Ronda rondaPronostico;
 	private Ronda rondaResultado;
 	private List<Persona> apuestasResultado = new ArrayList<>();
-	private Map <Integer, Persona> puntajeFinalLista = new HashMap<>();
-	
-	
+	private Map <String, Fase> personasPorFase = new HashMap<>();
 	
 	
 	public Resultado(Ronda rondaPronostico, Ronda rondaResultado) {
@@ -58,7 +57,7 @@ public class Resultado {
 					Persona persona = new Persona();								//instancio un nuevo objeto persona
 					persona.setId(idPersonaP);											//al objeto persona creado le asigno el id obtenido en pronostico
 					persona.setNombre(nombreParticipante);								//al objeto persona creado le asigno el nombre obtenido en pronostico
-					persona.setRonda(rondaPartido);										//al objeto persona creado le asigno la ronda obtenido en resultado
+					persona.setFase(rondaPartido);										//al objeto persona creado le asigno la ronda obtenido en resultado
 					
 					if (resultadoApuesta) {											//si el resultado de la apuesta coincide o no, sumo o resto los puntos enviados por parametros segun corresponda
 						persona.setPuntaje(gana);	
@@ -67,37 +66,61 @@ public class Resultado {
 						persona.setPuntaje(pierde);
 						iterador.remove();
 					}
-					this.getApuestasResultado().add(persona);						//se agrega la persona a la nueva lista con los resultados 
+					this.getApuestasResultado().add(persona);						//se agrega la persona a la nueva lista con los resultados
 					
 				}
-				
-				
 			}
-			
-			
-		}	
-				
+		}		
 		setPuntajeFinalLista();		//llamo al metodo privado setPuntajeFinalLista para que me cree una nueva lista de tipo hashmap filtrandome por participante unico 
 	}
 	
 	
-	private void setPuntajeFinalLista() {			//el metodo es privado para que no se pueda acceder desde afuera 
-		
+	private void setPuntajeFinalLista() {									//el metodo es privado para que no se pueda acceder desde afuera 
+			
 		for (Persona p : this.getApuestasResultado()) {						//itero la lista con el resultado de cada partido por persona
 			int id = p.getId();												//obtengo el id de la persona
+			String faseId = p.getFase();
 			
-			if(getPuntajeFinalLista().containsKey(id)) {					//si el map contiene el id
+
+			if(getPersonasPorFase().containsKey(faseId)) {
 				
-				Persona personaMap = getPuntajeFinalLista().get(id);		// obtengo el objeto persona del map utilizando el id como referencia de indice llave:valor
+				Fase f = getPersonasPorFase().get(faseId);
 				
-				int puntosPersonaLista = p.getPuntaje();					// obtengo el puntaje de la persona iterada
-				int puntosPersonaMap = personaMap.getPuntaje();				// obtengo el puntaje de la persona del map ya filtrada
+				if(f.getPuntajeFinalLista().containsKey(id)) {					//si el map contiene el id
+					
+					Persona personaMap = f.getPuntajeFinalLista().get(id);		// obtengo el objeto persona del map utilizando el id como referencia de indice llave:valor
+					
+					int puntosPersonaLista = p.getPuntaje();					// obtengo el puntaje de la persona iterada
+					int puntosPersonaMap = personaMap.getPuntaje();				// obtengo el puntaje de la persona del map ya filtrada
+					
+					personaMap.setPuntaje(puntosPersonaMap + puntosPersonaLista);	//seteo el nuevo puntaje de la persona del map 
+				}	else {														//si el id no existe en el map
+					f.getPuntajeFinalLista().put(id, p);							//agrego al map a la nueva persona, enviandole como llave el id y el objeto Persona como valor(este contiene el puntaje inicial)
+				}
 				
-				personaMap.setPuntaje(puntosPersonaMap + puntosPersonaLista);	//seteo el nuevo puntaje de la persona del map 
-			}	else {														//si el id no existe en el map
-				getPuntajeFinalLista().put(id, p);							//agrego al map a la nueva persona, enviandole como llave el id y el objeto Persona como valor(este contiene el puntaje inicial)
+				
+			} else {
+				Fase fa = new Fase();
+				getPersonasPorFase().put(faseId, fa);
 			}
 			
+			
+			
+			
+		}
+		
+	}
+	
+	
+	public void getResultados() {
+		String nombre = "";
+		int puntaje = 0;
+		String fase = "";
+		
+		for (Map.Entry<String, Fase> entry : getPersonasPorFase().entrySet()) {
+			String key = entry.getKey();
+			Fase val = entry.getValue();
+			System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
 		}
 		
 	}

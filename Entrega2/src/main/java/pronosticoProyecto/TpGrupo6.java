@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
 import modelo.*;
 
 import exepciones.*;
@@ -27,8 +29,12 @@ public class TpGrupo6 {
 			Resultado resultado = new Resultado(rondasPronostico, rondasResultado);		//creo un nuevo objeto resultado enviando como parametro las listas de objetos partidos creadas anteriormente
 			resultado.setPuntajeApostador(1,0);											//a travez del metodo creo la lista final con los resultados de cada participante individual, le paso por 
 																						//parametros los puntajes si gana o pierde , en caso de perder si se desea restar debe ir con el signo negativo
-			//System.out.println(resultado.getApuestasResultado());
-			System.out.println(resultado.getPuntajeFinalLista());						//impresion temporal del resultado
+			
+			
+			Map<String, Fase> resultadosFinales = resultado.getPersonasPorFase();		//guardo en una variable el map con la matriz de objetos
+			obtenerPuntajesFiltrados(resultadosFinales);								//llamo a la funcion encargada de que me muestre en pantalla los valores formateados
+			
+			
 
 		} catch (IOException e) {
 			throw new ErrorEnLecturaDeDatosException("Error en leer archivo\n", e);		//execion por si los archivos no existen
@@ -52,6 +58,24 @@ public class TpGrupo6 {
 	        				//al objeto ronda pasado por parametro, utilizando el paso por referencia de objetos, se le agregan los partidos
 	    }															//paso por referencia: todos los cambios que se hacen al objeto pasado por parametro se reflejan en el objeto original
 	    															//ya que apuntan a la misma direccion de memoria
+	}
+	
+	private static void obtenerPuntajesFiltrados(Map<String, Fase> resultadosFinales) {
+		
+		
+		for (String fase : resultadosFinales.keySet()) {											//para cada elemento del map, que me guarde la key en clave
+			String nombre = "";																		//inicializacion de variables 
+			int puntaje = 0;
+						
+			Map<Integer, Persona> faseIterada = resultadosFinales.get(fase).getPuntajeFinalLista();	 	//creo una variable de tipo map, la cual contiene una lista de tipo map con objetos persona
+			
+			for(Integer id : faseIterada.keySet()) {										//para cada elemento del map, que me guarde la key en id, el cual corresponde al id unico de cada persona
+				nombre = faseIterada.get(id).getNombre();									//obtengo y guardo el valor del nombre
+				puntaje = faseIterada.get(id).getPuntaje();									//obtengo y guardo el valor del puntaje
+				System.out.println("El puntaje de: " +  nombre + " en la fase " + fase + " es de " + puntaje + " puntos");		//imprimo con formato los valores correspondientes
+			}
+			System.out.println("*********************************************************");
+		}
 	}
 
 }

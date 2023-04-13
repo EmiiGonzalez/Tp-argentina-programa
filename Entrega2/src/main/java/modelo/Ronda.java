@@ -6,10 +6,10 @@ import java.util.ArrayList;
 import lombok.Data;
 
 public class Ronda {
-	private List<Partido> partidos;
+	private List<Partido> partidos;			//atributo de clase
 
 	public Ronda() {
-		this.partidos = new ArrayList<Partido>();
+		this.partidos = new ArrayList<Partido>();		//inicializo el array
 	}
 	
 	public List<Partido> getPartidos() {
@@ -17,7 +17,7 @@ public class Ronda {
 	}
 	
 	
-	public void setRondas(Partido partido) {
+	public void setRondas(Partido partido) {		//agrego un objeto Partido al array
 	        this.partidos.add(partido);
 	}
 	

@@ -9,7 +9,7 @@ import lombok.Data;
 
 @Data
 public class Fase {
-	private Map <Integer, Persona> puntajeFinalLista = new HashMap<>();
+	private Map <Integer, Persona> puntajeFinalLista = new HashMap<>();			//atributo de clase, guardara Objetos persona discriminados por el id
 
 	public Fase(Map<Integer, Persona> puntajeFinalLista) {
 		this.puntajeFinalLista = puntajeFinalLista;

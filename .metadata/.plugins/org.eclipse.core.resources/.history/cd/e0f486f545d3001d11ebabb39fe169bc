@@ -1,7 +1,0 @@
-package modelo;
-
-public class Pronostico {
-	private Partido partido = new Partido();
-	private Equipo equipo = new Equipo();
-	private ResultadoEnum  resultado = new ResultadoEnum();
-}

@@ -5,24 +5,38 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import exepciones.ErrorEnCargaDeDatos;
 import lombok.Data;
 
 @Data
 public class Resultado {
-	private Fase fase;
-	private Ronda rondaPronostico;
-	private Ronda rondaResultado;
-	private List<Persona> apuestasResultado = new ArrayList<>();
-	private Map <String, Fase> personasPorFase = new HashMap<>();
+	private Ronda rondaPronostico;		//lista de objetos Partido correspondiente a el archivo pronostico 
+	private Ronda rondaResultado;		//lista de objetos Partido correspondiente a el archivo resultado 
+	private double multiplicadorDePuntos;	//se recibe por parametro, se usa para multiplicar los puntos si se haciertan todos
+	private int puntosPorAcertar;			//se recibe por parametro, se usa para sumar puntos cuando se acierta
+	private int puntosPorErrar;				//se recibe por parametro, se usa para sumar puntos cuando se erra
+	private List<Persona> apuestasResultado = new ArrayList<>();	//lista de objetos Persona donde se guardaran los puntos de cada persona por partido unico 
+	private Map <String, Fase> personasPorFase = new HashMap<>();	//map de objetos de tipo fase donde se guardaran por key el string correspondiente a la fase y value el objeto fase 
+	private Map <Integer, Persona> puntajeTotalPorPersona = new HashMap<>();	//map de objetos persona, el mismo se discrimina por id de persona y se utiliza principalmente para obtener
+																				//el puntaje total por persona 
 	
 	
-	public Resultado(Ronda rondaPronostico, Ronda rondaResultado) {
+	
+	public Resultado(Ronda rondaPronostico, Ronda rondaResultado, double multi, int acerto, int erro) throws ErrorEnCargaDeDatos {
 		this.rondaPronostico = rondaPronostico;
 		this.rondaResultado = rondaResultado;
+		this.multiplicadorDePuntos = multi;
+		this.puntosPorAcertar = acerto;
+		this.puntosPorErrar = erro;
 
-
+		
+		//el constructor se encarga de generar los datos y listas necesarias automaticamente
+		this.setPuntajeApostador();
+		this.setPuntajeTotalPorPersona();
+		
+		
 	}
 	public Resultado() {
 		
@@ -30,18 +44,20 @@ public class Resultado {
 
 
 
-	public void setPuntajeApostador(int gana, int pierde ) throws ErrorEnCargaDeDatos {
+	public void setPuntajeApostador() throws ErrorEnCargaDeDatos {		//este metodo compara ambos objetos de tipo Ronda, correspondiente al archivo Pronostico y resultado, de ellos 
+																		//generara un objeto Persona unico con un id unico, este se usara para filtrar posteriormente y le asignara su punto por pronostico
+																		
 
 		
-		for (Partido partidoResultado : this.getRondaResultado().getPartidos()) {
+		for (Partido partidoResultado : this.getRondaResultado().getPartidos()) {		//recorro la lista de partidos correspondiente al archivo resultado
 
 			int idPartidoR = partidoResultado.getIdPartido();		//obtengo el id del partido resultado
 			String rondaPartido = partidoResultado.getRonda();		//obtengo a que ronda pertenece el partido
 			int ganadorR = partidoResultado.getGanador();			//obtengo que equipo gano 1=Equipo1, 2=Empate, 3=Equipo2
 			
-			Iterator<Partido> iterador = this.getRondaPronostico().getPartidos().iterator();
+			Iterator<Partido> iterador = this.getRondaPronostico().getPartidos().iterator();		
 			
-			while(iterador.hasNext()) {
+			while(iterador.hasNext()) {							//recorro la lista de partidos correspondiente al archivo pronostico
 			
 				Partido partidoPronostico = iterador.next();
 				
@@ -60,10 +76,10 @@ public class Resultado {
 					persona.setFase(rondaPartido);										//al objeto persona creado le asigno la ronda obtenido en resultado
 					
 					if (resultadoApuesta) {											//si el resultado de la apuesta coincide o no, sumo o resto los puntos enviados por parametros segun corresponda
-						persona.setPuntaje(gana);	
+						persona.setPuntaje(this.getPuntosPorAcertar());	
 						iterador.remove();											//se remueve la linea para liberar memoria y tiempo de ejecucion
 					}	else {
-						persona.setPuntaje(pierde);
+						persona.setPuntaje(this.getPuntosPorErrar());
 						iterador.remove();
 					}
 					this.getApuestasResultado().add(persona);						//se agrega la persona a la nueva lista con los resultados
@@ -75,7 +91,10 @@ public class Resultado {
 	}
 	
 	
-	private void setPuntajeFinalLista() {									//el metodo es privado para que no se pueda acceder desde afuera 
+	private void setPuntajeFinalLista() {					/*el metodo es privado para que no se pueda acceder desde afuera 
+															este metodo me crea objetos de tipo fase la cual corresponde a la fase de los partidos resultado
+															se usa(ejemplo fase de grupos, a,b,c, 1, 2, etc.) y dentro de guarda los resultados en puntos de cada persona
+															correspondientes a la fase en la cual apostaron*/
 			
 		for (Persona p : this.getApuestasResultado()) {						//itero la lista con el resultado de cada partido por persona
 			int id = p.getId();												//obtengo el id de la persona
@@ -87,7 +106,7 @@ public class Resultado {
 				Fase f = getPersonasPorFase().get(faseId);
 				
 				if(f.getPuntajeFinalLista().containsKey(id)) {					//si el map contiene el id
-					
+					 
 					Persona personaMap = f.getPuntajeFinalLista().get(id);		// obtengo el objeto persona del map utilizando el id como referencia de indice llave:valor
 					
 					int puntosPersonaLista = p.getPuntaje();					// obtengo el puntaje de la persona iterada
@@ -103,30 +122,57 @@ public class Resultado {
 				Fase fa = new Fase();
 				getPersonasPorFase().put(faseId, fa);
 			}
-			
-			
-			
-			
 		}
 		
+			
 	}
-	
-	
-	public void getResultados() {
-		String nombre = "";
-		int puntaje = 0;
-		String fase = "";
 		
-		for (Map.Entry<String, Fase> entry : getPersonasPorFase().entrySet()) {
-			String key = entry.getKey();
-			Fase val = entry.getValue();
-			System.out.println("Key = " + entry.getKey() + ", Value = " + entry.getValue());
-		}
-		
-	}
+	
+	public int getCantidadDePartidosDeFase(String fase) {					//metodo para obtener el total de partidos por cada fase
+			int total = 0;	
+			for (Partido p : this.getRondaResultado().getPartidos()) {		//obtengo todos objeto de tipo Partido de la lista resultados
 				
+				if(p.getRonda().equals(fase)) {								//si el atributo ronda es igual a la fase enviada por parametro, se suma un punto
+					total +=1;
+				}
+			}
+			return total;													//se retorna el total
+	}
+	
+	
+	private void setPuntajeTotalPorPersona() {								//metodo para obtener el total de puntos por persona en todas las fases
+		
+		for (Fase f : this.getPersonasPorFase().values()) {					//recorro todas las fases ya filtradas y obtengo su valor, es decir un objeto de tipo Fase
+			
+			for (Persona per : f.getPuntajeFinalLista().values()) {			//recorro el atributo PuntajeFinalLista del objeto fase y obtengo su valor, es decir el objeto de tipo persona
+				
+				int pId = per.getId(); 										//obtengo el id de la persona
+				String nombre = per.getNombre();							//obtengo el nombre
+				int puntaje = per.getPuntaje();								//obtengo el puntaje
+				String fase = "Total";										//asigno total como referencia a todas las fases
+				
+				Persona p = new Persona(nombre, pId, puntaje, fase);		//cre un nuevo objeto persona con las variables anteriores para no pisar datos
+				
+				
+				if(this.getPuntajeTotalPorPersona().containsKey(pId)) {				//si el map PuntajeTotalPorPersona contiene una persona con el pId
+					int puntajeActual = this.getPuntajeTotalPorPersona().get(pId).getPuntaje();			//obtengo el puntaje de esa persona con el pId verificado anteriormente
+					this.getPuntajeTotalPorPersona().get(pId).setPuntaje(puntaje + puntajeActual);		//a la persona verificada anteriormente y seleccionada con el pId le agrego el nuevo puntaje
+					
+					
+				}	else {
+					this.getPuntajeTotalPorPersona().put(pId, p);		//si la persona no esta en el map la agrego
+				}
+				
+			}
+		}
+			
+		}
 }
-				
+
+	
+
+
+	
 		
 	
 

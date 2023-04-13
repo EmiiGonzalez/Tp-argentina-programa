@@ -20,8 +20,14 @@ public class Torneo {
 	public Torneo() {
 	}
 	
-	public Torneo(String linea) {
+	public Torneo(String linea, char tipoArchivo) throws ErrorEnCargaDeDatos {
 		this.linea = linea;
+		
+		if (Character.toLowerCase(tipoArchivo) == 'p') {		//dependiendo el tipo de iteracion enviada como parametro se decide cual partido crear
+            this.generarPartidoPronostico();					//se genera el partido
+        } else if(Character.toLowerCase(tipoArchivo) == 'r'){
+            this.generarPartidoResultado();
+        }
 		
 	}
 	
@@ -72,6 +78,9 @@ public class Torneo {
 		this.partido.setParticipante(nombreParticipante);					//al objeto partido le asigno el nombre del participante
 		this.partido.setIdParticipante(idPersona);							//al objeto partido le asigno el id de la persona
 	}
+	
+	
+	
 	
 }
 	

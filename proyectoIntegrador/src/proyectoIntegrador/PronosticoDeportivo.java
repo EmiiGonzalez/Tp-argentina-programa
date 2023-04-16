@@ -3,6 +3,8 @@ package proyectoIntegrador;
 import java.nio.file.Path;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +54,9 @@ public class PronosticoDeportivo {
 		Map<String, Integer> puntaje = new HashMap<String, Integer>();
 		List<String> participantes = prn.getParticipantes(stmt);
 		float resultado;
+		List<Boolean> PuntosExtra=new ArrayList<Boolean>(Arrays.asList(new Boolean[participantes.size()]));
+		Collections.fill(PuntosExtra, Boolean.TRUE);
+		List<Integer> Contador  = new ArrayList<Integer>(Collections.nCopies(participantes.size(), 0));
 		
 		for (int i=0; i<participantes.size();i++) {
 			puntaje.put(participantes.get(i), 0);
@@ -64,6 +69,20 @@ public class PronosticoDeportivo {
 				res.setPartido(resultados.get(i));
 				resultado = res.getResultado();
 				prn.getPronostico(puntaje, res.getEquipo1(),res.getEquipo2(), resultado, stmt);
+				for (int j=0; j<participantes.size();j++) {
+					Contador.set(j, Contador.get(j) + 1);
+					if (Contador.get(j)!= puntaje.get(participantes.get(j))) {
+						PuntosExtra.set(j, false);
+					}
+					
+				}
+				if (i%PartidoxRonda == 0) {
+					for (int j=0;j<participantes.size();j++) {
+						if(PuntosExtra.get(j)) {
+							puntaje.put(participantes.get(j), puntaje.get(participantes.get(j)+this.extraRonda));
+						}
+					}
+				}
 			} catch (ResultadosError | PronosticosError e) {
 				e.printStackTrace();
 			}

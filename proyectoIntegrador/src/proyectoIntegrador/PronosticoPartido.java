@@ -16,6 +16,7 @@ public class PronosticoPartido extends Pronostico{
 		//es igual al metodo usado para Resultado
 	public void getPronostico(Map<String, Integer> Puntaje, String Equipo1, String Equipo2, float resultado, Statement stmt) throws PronosticosError {
 		try {
+			// Pasa algo con la query que toma a equipo1 y a equipo2 como integer y no strings
 			ResultSet rs = stmt.executeQuery(String.format("SELECT participante, gana1, empate, gana2 FROM pronosticos WHERE equipo1=%1$s AND equipo2=%2$s",Equipo1,Equipo2));
 			while (rs.next()) {
 				if (resultado == 1 && rs.getString("gana1").equals("X")) {

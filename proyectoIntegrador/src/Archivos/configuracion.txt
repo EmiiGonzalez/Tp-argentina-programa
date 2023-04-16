@@ -1,0 +1,6 @@
+dbName,postgres
+pass,ArgentinaPrograma
+extraRonda,5
+extraFase,20
+partido,1
+partidoxronda,10

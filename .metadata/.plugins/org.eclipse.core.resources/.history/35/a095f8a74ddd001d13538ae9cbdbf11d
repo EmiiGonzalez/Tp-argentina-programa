@@ -60,7 +60,7 @@ public class TpGrupo6 {
 
 			Resultado resultado = new Resultado(rondasPronostico, rondasResultado, puntosExtraTotal, puntosExtraFase, puntosPorAcertar, puntosPorErrar); // creo un nuevo objeto resultado enviando como parametro las listas de objetos partidos creadas anteriormente
 			imprimirTotalPorFase(resultado);
-			imprimirTotal(resultado);
+			
 
 			
 			bd.setDatosEnBase(resultado, "P"); // metodo donde se guardan los datos de cada persona y su puntaje final en una base de datos
@@ -102,16 +102,6 @@ public class TpGrupo6 {
 				System.out.println("		Puntos: " + puntaje);
 			}
 		}
-	}
-	
-	private static void imprimirTotal(Resultado r) {
-		for(Persona p: r.getPuntajeTotalPorPersona().values()) {
-			String nombre = p.getNombre();
-			int puntaje = p.getPuntaje();
-			System.out.println("********************" + nombre + "********************");
-			System.out.println("		Total de puntos: " + puntaje);
-		}
-		
 	}
 
 }

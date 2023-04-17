@@ -59,8 +59,8 @@ public class TpGrupo6 {
 			procesarLineas(lineasPronosticobd, rondasPronostico, 'p'); // procesamiento de lineas del archivo para generar una list de objetos, el mismo modifico el contenido del objeto rondasPronostico
 
 			Resultado resultado = new Resultado(rondasPronostico, rondasResultado, puntosExtraTotal, puntosExtraFase, puntosPorAcertar, puntosPorErrar); // creo un nuevo objeto resultado enviando como parametro las listas de objetos partidos creadas anteriormente
-			imprimirTotalPorFase(resultado);
-			imprimirTotal(resultado);
+			imprimir(resultado);
+			
 
 			
 			bd.setDatosEnBase(resultado, "P"); // metodo donde se guardan los datos de cada persona y su puntaje final en una base de datos
@@ -91,27 +91,18 @@ public class TpGrupo6 {
 			// ya que apuntan a la misma direccion de memoria
 	}
 	
-	private static void imprimirTotalPorFase(Resultado r) {
+	private static void imprimir(Resultado r) {
 		for(Fase f : r.getPersonasPorFase().values()) {
 			String fase = f.getNombre();
 			for(Persona p : f.getPuntajeFinalLista().values()) {
 				String nombre = p.getNombre();
 				int puntaje = p.getPuntaje();
-				System.out.println("********************FASE:" + fase + "********************");
-				System.out.println("		Nombre: " + nombre);
-				System.out.println("		Puntos: " + puntaje);
+				System.out.println("******************************************");
+				System.out.println("Fase: " + fase);
+				System.out.println("Nombre: " + nombre);
+				System.out.println("Puntos: " + puntaje);
 			}
 		}
-	}
-	
-	private static void imprimirTotal(Resultado r) {
-		for(Persona p: r.getPuntajeTotalPorPersona().values()) {
-			String nombre = p.getNombre();
-			int puntaje = p.getPuntaje();
-			System.out.println("********************" + nombre + "********************");
-			System.out.println("		Total de puntos: " + puntaje);
-		}
-		
 	}
 
 }

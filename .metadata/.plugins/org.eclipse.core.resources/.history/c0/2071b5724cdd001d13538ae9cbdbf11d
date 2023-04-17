@@ -167,7 +167,6 @@ public class Resultado {
 			} else {	//si el objeto fase no se encuentra en la lista (util para cuando solo hay una persona)
 				Fase fa = new Fase();	//creo uno nuevo
 				fa.getPuntajeFinalLista().put(id, p);	//al atributo del objeto fase le asigno una persona nueva
-				fa.setNombre(faseId);
 				getPersonasPorFase().put(faseId, fa);	//agrego el objeto fase a la lista de personas por fase
 				
 				

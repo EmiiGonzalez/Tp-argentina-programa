@@ -56,7 +56,7 @@ public class TpGrupo6 {
 			Ronda rondasPronostico = new Ronda(); // instancia de objeto ronda
 
 			procesarLineas(lineasResultado, rondasResultado, 'r'); // procesamiento de lineas del archivo para generar una list de objetos, el mismo modifico el contenido del objeto rondasResultado
-			procesarLineas(lineasPronosticobd, rondasPronostico, 'p'); // procesamiento de lineas del archivo para generar una list de objetos, el mismo modifico el contenido del objeto rondasPronostico
+			procesarLineas(lineasPronostico, rondasPronostico, 'p'); // procesamiento de lineas del archivo para generar una list de objetos, el mismo modifico el contenido del objeto rondasPronostico
 
 			Resultado resultado = new Resultado(rondasPronostico, rondasResultado, puntosExtraTotal, puntosExtraFase, puntosPorAcertar, puntosPorErrar); // creo un nuevo objeto resultado enviando como parametro las listas de objetos partidos creadas anteriormente
 			imprimirTotalPorFase(resultado);

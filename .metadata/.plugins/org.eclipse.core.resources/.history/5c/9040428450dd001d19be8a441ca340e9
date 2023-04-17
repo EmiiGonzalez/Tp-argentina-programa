@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
@@ -18,7 +19,7 @@ public class TpGrupo6 {
 
 		try {
 			String archivoResultado = args[0]; // ".\\src\\main\\java\\Archivos\\resultados.txt"
-			//String archivoPronostico = args[1]; // ".\\src\\main\\java\\Archivos\\pronostico.txt"
+			String archivoPronostico = args[1]; // ".\\src\\main\\java\\Archivos\\pronostico.txt"
 			String archivoConfiguracion = args[2]; // ".\\src\\main\\java\\Archivos\\configuracion.txt"
 
 			Map<String, String> configuracion = new HashMap<>(); // map para guardar los valores del archivo
@@ -44,7 +45,7 @@ public class TpGrupo6 {
 			String pass = configuracion.get("9");
 
 			List<String> lineasResultado = Files.readAllLines(Paths.get(archivoResultado), StandardCharsets.ISO_8859_1);
-			//List<String> lineasPronostico = Files.readAllLines(Paths.get(archivoPronostico),StandardCharsets.ISO_8859_1);			<-si se desea por archivo
+			List<String> lineasPronostico = Files.readAllLines(Paths.get(archivoPronostico),StandardCharsets.ISO_8859_1);
 			
 			BaseDeDatos bd = new BaseDeDatos(api, ip, base, usuario, pass); // constructor para la clase base de datos
 			

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import exepciones.ErrorEnCargaDeDatos;
 import lombok.Data;
@@ -134,6 +135,7 @@ public class Resultado {
 
 					personaMap.setPuntaje(puntosPersonaMap + puntosPersonaLista); // seteo el nuevo puntaje de la
 																					// persona del map
+					boolean cont = personaMap.getPuntaje() == cantPartidos;
 					if (personaMap.getPuntaje() == cantPartidos) { // si el puntaje es igual a la cantidad de partidos,
 																	// agrego los puntos extras
 						puntosPersonaMap = personaMap.getPuntaje() + this.getPuntosExtrasPorFase();
@@ -149,8 +151,12 @@ public class Resultado {
 																							// cantidad de partidos,
 																							// agrego los puntos extras
 
-						int puntosPersonaMap = f.getPuntajeFinalLista().get(id).getPuntaje(); // en caso que haya un solo partido, si una persona apostadora gana, se agregan los
-																								// puntos correspondientes
+						int puntosPersonaMap = f.getPuntajeFinalLista().get(id).getPuntaje(); // en caso que haya un
+																								// solo partido, si una
+																								// persona apostadora
+																								// gana, se agregan los
+																								// puntos
+																								// correspondientes
 						puntosPersonaMap = f.getPuntajeFinalLista().get(id).getPuntaje()
 								+ this.getPuntosExtrasPorFase();
 						f.getPuntajeFinalLista().get(id).setPuntaje(puntosPersonaMap);
@@ -160,7 +166,6 @@ public class Resultado {
 
 			} else {	//si el objeto fase no se encuentra en la lista (util para cuando solo hay una persona)
 				Fase fa = new Fase();	//creo uno nuevo
-				
 				fa.getPuntajeFinalLista().put(id, p);	//al atributo del objeto fase le asigno una persona nueva
 				fa.setNombre(faseId);
 				getPersonasPorFase().put(faseId, fa);	//agrego el objeto fase a la lista de personas por fase

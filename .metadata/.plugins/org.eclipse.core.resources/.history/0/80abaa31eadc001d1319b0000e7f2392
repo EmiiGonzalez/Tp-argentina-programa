@@ -1,0 +1,95 @@
+package pronosticoProyecto;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+
+import modelo.*;
+import baseDatos.*;
+import exepciones.*;
+
+public class TpGrupo6 {
+
+	public static void main(String[] args) throws ErrorEnCargaDeDatos, ErrorEnLecturaDeDatosException {
+		
+		try {
+			String archivoResultado = args[0];		//".\\src\\main\\java\\Archivos\\resultados.txt"
+			String archivoPronostico = args[1];		//".\\src\\main\\java\\Archivos\\pronostico.txt"
+			String archivoConfiguracion =args[2];	//".\\src\\main\\java\\Archivos\\configuracion.txt"
+			
+			
+			Map<String, String> configuracion = new HashMap<>();
+			List<String> lineasConfiguracion = Files.readAllLines(Paths.get(archivoConfiguracion), StandardCharsets.ISO_8859_1);
+			
+			for (String linea : lineasConfiguracion) {
+	            String[] partes = linea.split("=");
+	            configuracion.put(partes[0], partes[1]);
+	        }
+
+	        int puntosExtraTotal = Integer.parseInt(configuracion.get("Detalle"));
+	        int puntosExtraFase = Integer.parseInt(configuracion.get("Puntos extras por acertar todos los partidos de fases"));
+	        int puntosPorAcertar = Integer.parseInt(configuracion.get("Puntos por acertar"));
+	        int puntosPorErrar = Integer.parseInt(configuracion.get("Puntos por errar"));
+	        String api = configuracion.get("Api");
+	        String ip = configuracion.get("IP");
+	        String base = configuracion.get("Base de datos");
+	        String usuario = configuracion.get("Usuario");
+	        String pass = configuracion.get("Pass");
+				
+			
+			
+			
+			
+			
+			
+			
+			List<String> lineasResultado = Files.readAllLines(Paths.get(archivoResultado), StandardCharsets.ISO_8859_1);
+			List<String> lineasPronostico = Files.readAllLines(Paths.get(archivoPronostico), StandardCharsets.ISO_8859_1);
+			
+			Ronda rondasResultado = new Ronda();	//instancia de objeto ronda
+			Ronda rondasPronostico = new Ronda();	//instancia de objeto ronda
+			
+			procesarLineas(lineasResultado, rondasResultado, 'r');		//procesamiento de lineas del archivo para generar una list de objetos, el mismo modifico el contenido del objeto rondasResultado 
+			procesarLineas(lineasPronostico, rondasPronostico, 'p');	//procesamiento de lineas del archivo para generar una list de objetos, el mismo modifico el contenido del objeto rondasPronostico 
+			
+
+			
+			
+			Resultado resultado = new Resultado(rondasPronostico, rondasResultado, puntosExtraTotal, puntosExtraFase, puntosPorAcertar, puntosPorErrar);				//creo un nuevo objeto resultado enviando como parametro las listas de objetos partidos creadas anteriormente
+		
+			System.out.println(resultado.getPersonasPorFase());
+			System.out.println(resultado.getPuntajeTotalPorPersona());
+			
+			
+			BaseDeDatos bd = new BaseDeDatos("postgresql","localhost:5432", "ProyectoAR40","postgres","1234"); 
+			//bd.setDatosEnBase(resultado,"T");
+			
+			
+
+		} catch (IOException e) {
+			throw new ErrorEnLecturaDeDatosException("Error en leer archivo\n", e);		//execion por si los archivos no existen
+		}
+
+	}
+	
+
+	//funcion para reciclar codigo y no escribir dos veces el ciclo for dentro del cuerpo main
+	//dependiendo el char enviado como parametro, el constructor de la clase Torneo decide cual camino seguir
+	
+	private static void procesarLineas(List<String> lineas, Ronda ronda, char tipoArchivo) throws ErrorEnCargaDeDatos {	
+	    for (int i = 1; i < lineas.size(); i++) {							//se empieza desde 1 para omitir la cabecera
+	        String linea = lineas.get(i); 									//instancio en variable por indice        
+	        Torneo resultado = new Torneo(linea, tipoArchivo);				//creo un nuevo objeto resultado pasando como parametro la linea o string creado anteriormente 
+	        ronda.setRondas(resultado.getPartido());
+	        														//al objeto ronda pasado por parametro, utilizando el paso por referencia de objetos, se le agregan los partidos
+	    }															//paso por referencia: todos los cambios que se hacen al objeto pasado por parametro se reflejan en el objeto original
+	    															//ya que apuntan a la misma direccion de memoria
+	}
+	
+	
+}

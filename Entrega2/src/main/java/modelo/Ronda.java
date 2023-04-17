@@ -4,7 +4,7 @@ package modelo;
 import java.util.List;
 import java.util.ArrayList;
 import lombok.Data;
-
+@Data
 public class Ronda {
 	private List<Partido> partidos;			//atributo de clase
 

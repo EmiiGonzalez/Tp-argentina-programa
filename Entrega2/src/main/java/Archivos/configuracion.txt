@@ -1,0 +1,9 @@
+1=Puntos extras por acertar todos los partidos=10
+2=Puntos Puntos extras por acertar todos los partidos de fases=5
+3=Puntos por acertar=1
+4=Puntos por errar=0
+5=Api=postgresql
+6=IP=localhost:5432
+7=Base de datos=ProyectoAR40
+8=Usuario=postgres
+9=Pass=1234

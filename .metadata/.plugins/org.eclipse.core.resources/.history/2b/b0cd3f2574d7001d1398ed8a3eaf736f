@@ -1,5 +1,0 @@
-package exepciones;
-
-public class ErrorEnLecturaDeDatosException {
-
-}

@@ -36,23 +36,21 @@ public class BaseDeDatos {
 			
 				String query = "-- Database: "+this.getDbName()+"\r\n"
 						+ "\r\n"
-						+ "-- DROP DATABASE IF EXISTS \""+this.getDbName()+"\";\r\n"
-						+ "\r\n"
-						+ "CREATE DATABASE \"ProyectoAR40\"\r\n"
-						+ "    WITH\r\n"
-						+ "    OWNER = postgres\r\n"
-						+ "    ENCODING = 'UTF8'\r\n"
-						+ "    LC_COLLATE = 'Spanish_Argentina.1252'\r\n"
-						+ "    LC_CTYPE = 'Spanish_Argentina.1252'\r\n"
-						+ "    TABLESPACE = pg_default\r\n"
-						+ "    CONNECTION LIMIT = -1\r\n"
-						+ "    IS_TEMPLATE = False;";
+						+ "CREATE DATABASE IF NOT EXISTS \""+this.getDbName()+"\"\r\n"
+						+ "WITH\r\n"
+						+ "OWNER = postgres\r\n"
+						+ "ENCODING = 'UTF8'\r\n"
+						+ "LC_COLLATE = 'Spanish_Argentina.1252'\r\n"
+						+ "LC_CTYPE = 'Spanish_Argentina.1252'\r\n"
+						+ "TABLESPACE = pg_default\r\n"
+						+ "CONNECTION LIMIT = -1\r\n"
+						+ "IS_TEMPLATE = False;";
 				
 				stmt.executeUpdate(query); //ejecuto la query
-				stmt.close();
-				con.close();
+			con.close();
+			System.out.println("Base de datos creada");
 		} catch (SQLException e) {
-			System.out.println("La base de datos ya existe");
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

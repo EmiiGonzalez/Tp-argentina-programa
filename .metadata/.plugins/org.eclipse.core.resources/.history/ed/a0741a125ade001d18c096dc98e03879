@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Scanner;
 
 import modelo.*;
 import baseDatos.*;
@@ -46,10 +47,11 @@ public class TpGrupo6 {
 			List<String> lineasResultado = Files.readAllLines(Paths.get(archivoResultado), StandardCharsets.UTF_8);
 			List<String> lineasPronostico = Files.readAllLines(Paths.get(archivoPronostico),StandardCharsets.UTF_8);			//<-si se desea por archivo
 			
+			Scanner scn = new Scanner();
 			
 			
 			BaseDeDatos bd = new BaseDeDatos(api, ip, base, usuario, pass); // constructor para la clase base de datos
-			//bd.crearBd(); 		//por si necesito crear la bd en postgress
+			bd.crearBd(); 		//por si necesito crear la bd en postgress
 			
 			bd.setPronostricos(lineasPronostico);		//guardo en la base de datos los datos que contenga el archivo pronostico
 			bd.setResultados(lineasResultado);			//guardo en la base de datos los datos que contenga el archivo resultado
@@ -68,7 +70,7 @@ public class TpGrupo6 {
 			imprimirTotal(resultado);
 
 			
-			bd.setResultadosFinales(resultado); // metodo donde se guardan los datos de cada persona y su puntaje final en una base de datos
+			bd.setResultadosFinales(resultado, "P"); // metodo donde se guardan los datos de cada persona y su puntaje final en una base de datos
 			//System.out.println(bd.getPronosticos());
 			
 

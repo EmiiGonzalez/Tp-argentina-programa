@@ -49,7 +49,7 @@ public class TpGrupo6 {
 			
 			
 			BaseDeDatos bd = new BaseDeDatos(api, ip, base, usuario, pass); // constructor para la clase base de datos
-			//bd.crearBd(); 		//por si necesito crear la bd en postgress
+			bd.crearBd(); 		//por si necesito crear la bd en postgress
 			
 			bd.setPronostricos(lineasPronostico);		//guardo en la base de datos los datos que contenga el archivo pronostico
 			bd.setResultados(lineasResultado);			//guardo en la base de datos los datos que contenga el archivo resultado

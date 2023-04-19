@@ -31,12 +31,12 @@ public class BaseDeDatos {
 
 	public void crearBd() {
 		try {
-			Connection con = DriverManager.getConnection("jdbc:" + this.getApi() + "://" + this.getIp() + "/", this.getUsuario(), this.getPass()); // conexion
+			Connection con = DriverManager.getConnection("jdbc:" + this.getApi() + "://" + this.getIp() + "/" + this.getDbName(), this.getUsuario(),this.getPass()); // conexion
 			Statement stmt = con.createStatement();		//objeto para ejecutar las querys
 			
 				String query = "-- Database: "+this.getDbName()+"\r\n"
 						+ "\r\n"
-						+ "-- DROP DATABASE IF EXISTS \""+this.getDbName()+"\";\r\n"
+						+ "-- DROP DATABASE IF EXISTS \"ProyectoAR40\";\r\n"
 						+ "\r\n"
 						+ "CREATE DATABASE \"ProyectoAR40\"\r\n"
 						+ "    WITH\r\n"
@@ -49,19 +49,21 @@ public class BaseDeDatos {
 						+ "    IS_TEMPLATE = False;";
 				
 				stmt.executeUpdate(query); //ejecuto la query
-				stmt.close();
-				con.close();
+			con.close();
+
 		} catch (SQLException e) {
-			System.out.println("La base de datos ya existe");
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	public void setResultadosFinales(Resultado datos) {
+	public void setResultadosFinales(Resultado datos, String control) {
 
 		try {
 			Connection con = DriverManager.getConnection("jdbc:" + this.getApi() + "://" + this.getIp() + "/" + this.getDbName(), this.getUsuario(),this.getPass()); // conexion
 			Statement stmt = con.createStatement();		//objeto para ejecutar las querys
+			if (control.equals("P")) { // si el control es igual a P o T se prepara la sentencia sql para agregar o actualizar la bd en un string
+				
 				//preparo la query para crear la bd en caso que no exista, la misma la obtengo desde postgress
 				String query = "-- Table: public.persona\r\n"
 						+ "\r\n"
@@ -99,8 +101,9 @@ public class BaseDeDatos {
 				}
 
 				ps.close();
-				stmt.close();
-				con.close();
+			}
+
+			con.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

@@ -36,7 +36,7 @@ public class BaseDeDatos {
 			
 				String query = "-- Database: "+this.getDbName()+"\r\n"
 						+ "\r\n"
-						+ "-- DROP DATABASE IF EXISTS \""+this.getDbName()+"\";\r\n"
+						+ "-- DROP DATABASE IF EXISTS \"ProyectoAR40\";\r\n"
 						+ "\r\n"
 						+ "CREATE DATABASE \"ProyectoAR40\"\r\n"
 						+ "    WITH\r\n"
@@ -49,15 +49,15 @@ public class BaseDeDatos {
 						+ "    IS_TEMPLATE = False;";
 				
 				stmt.executeUpdate(query); //ejecuto la query
-				stmt.close();
-				con.close();
+			con.close();
+			System.out.println("Base de datos creada");
 		} catch (SQLException e) {
-			System.out.println("La base de datos ya existe");
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	public void setResultadosFinales(Resultado datos) {
+	public void setResultadosFinales(Resultado datos, String control) {
 
 		try {
 			Connection con = DriverManager.getConnection("jdbc:" + this.getApi() + "://" + this.getIp() + "/" + this.getDbName(), this.getUsuario(),this.getPass()); // conexion
@@ -99,7 +99,6 @@ public class BaseDeDatos {
 				}
 
 				ps.close();
-				stmt.close();
 				con.close();
 
 		} catch (SQLException e) {

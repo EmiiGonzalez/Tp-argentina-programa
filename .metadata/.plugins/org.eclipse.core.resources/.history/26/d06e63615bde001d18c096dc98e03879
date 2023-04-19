@@ -50,7 +50,7 @@ public class BaseDeDatos {
 				
 				stmt.executeUpdate(query); //ejecuto la query
 				stmt.close();
-				con.close();
+			con.close();
 		} catch (SQLException e) {
 			System.out.println("La base de datos ya existe");
 			e.printStackTrace();

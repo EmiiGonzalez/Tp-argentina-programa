@@ -34,25 +34,20 @@ public class BaseDeDatos {
 			Connection con = DriverManager.getConnection("jdbc:" + this.getApi() + "://" + this.getIp() + "/", this.getUsuario(), this.getPass()); // conexion
 			Statement stmt = con.createStatement();		//objeto para ejecutar las querys
 			
-				String query = "-- Database: "+this.getDbName()+"\r\n"
-						+ "\r\n"
-						+ "-- DROP DATABASE IF EXISTS \""+this.getDbName()+"\";\r\n"
-						+ "\r\n"
-						+ "CREATE DATABASE \"ProyectoAR40\"\r\n"
-						+ "    WITH\r\n"
-						+ "    OWNER = postgres\r\n"
-						+ "    ENCODING = 'UTF8'\r\n"
-						+ "    LC_COLLATE = 'Spanish_Argentina.1252'\r\n"
-						+ "    LC_CTYPE = 'Spanish_Argentina.1252'\r\n"
-						+ "    TABLESPACE = pg_default\r\n"
-						+ "    CONNECTION LIMIT = -1\r\n"
-						+ "    IS_TEMPLATE = False;";
+				String query = "CREATE DATABASE IF NOT EXISTS \"" + nombreBD + "\""
+			            + " WITH OWNER = postgres"
+			            + " ENCODING = 'UTF8'"
+			            + " LC_COLLATE = 'Spanish_Argentina.1252'"
+			            + " LC_CTYPE = 'Spanish_Argentina.1252'"
+			            + " TABLESPACE = pg_default"
+			            + " CONNECTION LIMIT = -1"
+			            + " IS_TEMPLATE = False";
 				
 				stmt.executeUpdate(query); //ejecuto la query
-				stmt.close();
 				con.close();
+			System.out.println("Base de datos creada");
 		} catch (SQLException e) {
-			System.out.println("La base de datos ya existe");
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

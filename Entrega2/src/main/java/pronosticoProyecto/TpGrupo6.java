@@ -18,7 +18,7 @@ public class TpGrupo6 {
 
 		try {
 			String archivoResultado = args[0]; // ".\\src\\main\\java\\Archivos\\resultados.txt"
-			//String archivoPronostico = args[1]; // ".\\src\\main\\java\\Archivos\\pronostico.txt"
+			String archivoPronostico = args[1]; // ".\\src\\main\\java\\Archivos\\pronostico.txt"
 			String archivoConfiguracion = args[2]; // ".\\src\\main\\java\\Archivos\\configuracion.txt"
 
 			Map<String, String> configuracion = new HashMap<>(); // map para guardar los valores del archivo
@@ -43,26 +43,29 @@ public class TpGrupo6 {
 			String usuario = configuracion.get("8");
 			String pass = configuracion.get("9");
 
-			List<String> lineasResultado = Files.readAllLines(Paths.get(archivoResultado), StandardCharsets.ISO_8859_1);
-			//List<String> lineasPronostico = Files.readAllLines(Paths.get(archivoPronostico),StandardCharsets.ISO_8859_1);			<-si se desea por archivo
+			List<String> lineasResultado = Files.readAllLines(Paths.get(archivoResultado), StandardCharsets.UTF_8);
+			List<String> lineasPronostico = Files.readAllLines(Paths.get(archivoPronostico),StandardCharsets.UTF_8);			//<-si se desea por archivo
 			
 			BaseDeDatos bd = new BaseDeDatos(api, ip, base, usuario, pass); // constructor para la clase base de datos
 			
-			List<String> lineasPronosticobd = bd.getPronosticos();
-		
+			bd.setPronostricos(lineasPronostico);		//guardo en la base de datos los datos que contenga el archivo pronostico
+			bd.setResultados(lineasResultado);			//guardo en la base de datos los datos que contenga el archivo resultado
+			
+			List<String> lineasPronosticobd = bd.getPronosticos();		//obtengo los datos que tiene la base de datos
+			List<String> lineasResultadobd = bd.getResultados();
 			
 			Ronda rondasResultado = new Ronda(); // instancia de objeto ronda
 			Ronda rondasPronostico = new Ronda(); // instancia de objeto ronda
 
-			procesarLineas(lineasResultado, rondasResultado, 'r'); // procesamiento de lineas del archivo para generar una list de objetos, el mismo modifico el contenido del objeto rondasResultado
-			procesarLineas(lineasPronosticobd, rondasPronostico, 'p'); // procesamiento de lineas del archivo para generar una list de objetos, el mismo modifico el contenido del objeto rondasPronostico
+			procesarLineas(lineasResultadobd, rondasResultado, 'r'); // procesamiento de lineas para generar una list de objetos, el mismo modifica el contenido del objeto rondasResultado
+			procesarLineas(lineasPronosticobd, rondasPronostico, 'p'); // procesamiento de lineas para generar una list de objetos, el mismo modifica el contenido del objeto rondasPronostico
 
 			Resultado resultado = new Resultado(rondasPronostico, rondasResultado, puntosExtraTotal, puntosExtraFase, puntosPorAcertar, puntosPorErrar); // creo un nuevo objeto resultado enviando como parametro las listas de objetos partidos creadas anteriormente
 			imprimirTotalPorFase(resultado);
 			imprimirTotal(resultado);
 
 			
-			bd.setDatosEnBase(resultado, "P"); // metodo donde se guardan los datos de cada persona y su puntaje final en una base de datos
+			bd.setResultadosFinales(resultado, "P"); // metodo donde se guardan los datos de cada persona y su puntaje final en una base de datos
 			//System.out.println(bd.getPronosticos());
 			
 

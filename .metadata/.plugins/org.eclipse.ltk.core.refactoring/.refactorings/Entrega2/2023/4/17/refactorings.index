@@ -1,3 +1,5 @@
 1681692687648	Rename type 'BaseDeDatos'
 1681694372828	Rename type 'ConexionBaseDeDatos'
 1681755973711	Rename method 'imprimir'
+1681866938940	Rename method 'setDatosEnBase'
+1681868265852	Rename local variable 'partidosPonostico'

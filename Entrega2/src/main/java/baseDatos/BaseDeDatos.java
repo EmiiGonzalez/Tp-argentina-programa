@@ -3,7 +3,7 @@ package baseDatos;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.Properties;
 import lombok.Data;
 import modelo.Persona;
 import modelo.Resultado;
@@ -29,19 +29,36 @@ public class BaseDeDatos {
 	public BaseDeDatos() {
 	}
 
-	public void setDatosEnBase(Resultado datos, String control) {
+	public void setResultadosFinales(Resultado datos, String control) {
 
 		try {
 			Connection con = DriverManager.getConnection("jdbc:" + this.getApi() + "://" + this.getIp() + "/" + this.getDbName(), this.getUsuario(),this.getPass()); // conexion
+			Statement stmt = con.createStatement();		//objeto para ejecutar las querys
+			if (control.equals("P")) { // si el control es igual a P o T se prepara la sentencia sql para agregar o actualizar la bd en un string
+				
+				//preparo la query para crear la bd en caso que no exista, la misma la obtengo desde postgress
+				String query = "-- Table: public.persona\r\n"
+						+ "\r\n"
+						+ "-- DROP TABLE IF EXISTS public.persona;\r\n"
+						+ "\r\n"
+						+ "CREATE TABLE IF NOT EXISTS public.persona\r\n"
+						+ "(\r\n"
+						+ "    id bigint NOT NULL,\r\n"
+						+ "    nombre character varying COLLATE pg_catalog.\"default\",\r\n"
+						+ "    \"puntajeTotal\" bigint DEFAULT 0,\r\n"
+						+ "    CONSTRAINT persona_pkey PRIMARY KEY (id)\r\n"
+						+ ")\r\n"
+						+ "\r\n"
+						+ "TABLESPACE pg_default;\r\n"
+						+ "\r\n"
+						+ "ALTER TABLE IF EXISTS public.persona\r\n"
+						+ "    OWNER to postgres;";
+				
+				stmt.executeUpdate(query); //ejecuto la query
+				
 
-			if (control.equals("P")) { // si el control es igual a P o T se prepara la sentencia sql para agregar o
-										// actualizar la bd en un string
-
-				// tengo que poner el campo puntajeTotal entre comillas porque si no me da
-				// error, asi mismo se encuentra de forma identica en postgress
-				String query = "INSERT INTO persona (id, nombre, \"puntajeTotal\") VALUES (?, ?, ?) ON CONFLICT (id) DO UPDATE SET nombre = EXCLUDED.nombre, \"puntajeTotal\" = EXCLUDED.\"puntajeTotal\"";
-				PreparedStatement ps = con.prepareStatement(query); // para preparar la query que posteriormente se
-																	// ejecutara
+				query = "INSERT INTO persona (id, nombre, \"puntajeTotal\") VALUES (?, ?, ?) ON CONFLICT (id) DO UPDATE SET nombre = EXCLUDED.nombre, \"puntajeTotal\" = EXCLUDED.\"puntajeTotal\"";
+				PreparedStatement ps = con.prepareStatement(query); // para preparar la query que posteriormente se ejecutara
 
 				for (Persona persona : datos.getPuntajeTotalPorPersona().values()) { // se recorre el objeto y se
 																						// preparan los datos
@@ -72,13 +89,13 @@ public class BaseDeDatos {
 		List <String> partidosPonostico = new ArrayList<>();
 		try {
 			Connection con = DriverManager.getConnection("jdbc:" + this.getApi() + "://" + this.getIp() + "/" + this.getDbName(), this.getUsuario(),this.getPass());// conexion
-			Statement stmt = con.createStatement();
-			ResultSet rst = stmt.executeQuery("SELECT * FROM public.pronosticos");
+			Statement stmt = con.createStatement();		//objeto statement usado para enviar consultas
+			ResultSet rst = stmt.executeQuery("SELECT * FROM public.pronosticos");		//ejecuta la consulta y el resultado se almacena en el objeto resultset
 			
 			String cabecera = "participante,Equipo_1,Gana_1,Empate,Gana_2,Equipo_2,id_partido,id_persona";
 			partidosPonostico.add(cabecera);
 			
-			while (rst.next()) {
+			while (rst.next()) {		//itero cada resultado de la consulta y obtengo cada valor segun el campo y creo un string separado por comas de cada valor
 					String linea = rst.getString("participante") + "," +
 							rst.getString("Equipo_1") + "," +
 							rst.getString("Gana_1") + "," +
@@ -87,18 +104,199 @@ public class BaseDeDatos {
 							rst.getString("Equipo_2") + "," +
 							rst.getLong("id_partido") + "," +
 							rst.getLong("id_persona");
-					partidosPonostico.add(linea);
+					partidosPonostico.add(linea);		//agrego el string al array list
 			}
-			
+			rst.close();
+			stmt.close();			//cierro la coneccion
+			con.close();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} 
 		
-		return partidosPonostico;
+		return partidosPonostico;			//retorno el array
 	}
+	
+	
+	public void setPronostricos(List<String> lineasPronostico) {
+		try {
+			Connection con = DriverManager.getConnection("jdbc:" + this.getApi() + "://" + this.getIp() + "/" + this.getDbName(), this.getUsuario(),this.getPass());// conexion
+			Statement stmt = con.createStatement();		//objeto para ejecutar las querys
+			String sql = "-- Table: public.pronosticos\r\n"				//prearo la query que genera la tabla si no existe
+					+ "\r\n"
+					+ "-- DROP TABLE IF EXISTS public.pronosticos;\r\n"
+					+ "\r\n"
+					+ "CREATE TABLE IF NOT EXISTS public.pronosticos\r\n"
+					+ "(\r\n"
+					+ "    participante character varying COLLATE pg_catalog.\"default\",\r\n"
+					+ "    \"Equipo_1\" character varying COLLATE pg_catalog.\"default\",\r\n"
+					+ "    \"Gana_1\" character varying(1) COLLATE pg_catalog.\"default\" DEFAULT ' '::character varying,\r\n"
+					+ "    \"Empate\" character varying(1) COLLATE pg_catalog.\"default\" DEFAULT ' '::character varying,\r\n"
+					+ "    \"Gana_2\" character varying(1) COLLATE pg_catalog.\"default\" DEFAULT ' '::character varying,\r\n"
+					+ "    \"Equipo_2\" character varying COLLATE pg_catalog.\"default\",\r\n"
+					+ "    id_partido bigint,\r\n"
+					+ "    id_persona bigint,\r\n"
+					+ "    id_pronostico bigint NOT NULL,\r\n"
+					+ "    CONSTRAINT pronosticos_pkey PRIMARY KEY (id_pronostico)\r\n"
+					+ ")\r\n"
+					+ "\r\n"
+					+ "TABLESPACE pg_default;\r\n"
+					+ "\r\n"
+					+ "ALTER TABLE IF EXISTS public.pronosticos\r\n"
+					+ "    OWNER to postgres;";
+			
+			
+			
+			stmt.executeUpdate(sql);		//ejecuto la query
+			
+			sql = "INSERT INTO public.pronosticos(\r\n"			//preparo la nueva query para insertar datos, en la misma se especifica que si la pk ya existe, que solo se actualicen los datos
+					+ "    participante, \"Equipo_1\", \"Gana_1\", \"Empate\", \"Gana_2\", \"Equipo_2\", id_partido, id_persona, id_pronostico)\r\n"
+					+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)\r\n"
+					+ "ON CONFLICT (id_pronostico) DO UPDATE SET\r\n"
+					+ "    participante = EXCLUDED.participante,\r\n"
+					+ "    \"Equipo_1\" = EXCLUDED.\"Equipo_1\",\r\n"
+					+ "    \"Gana_1\" = EXCLUDED.\"Gana_1\",\r\n"
+					+ "    \"Empate\" = EXCLUDED.\"Empate\",\r\n"
+					+ "    \"Gana_2\" = EXCLUDED.\"Gana_2\",\r\n"
+					+ "    \"Equipo_2\" = EXCLUDED.\"Equipo_2\",\r\n"
+					+ "    id_partido = EXCLUDED.id_partido,\r\n"
+					+ "    id_persona = EXCLUDED.id_persona;";
+			PreparedStatement ps = con.prepareStatement(sql); 	//creo un objeto para preparar la query y pasar valores
+			
+			for(int i = 1; i<lineasPronostico.size(); i++) {
+				String linea = lineasPronostico.get(i);	//itero la list y obtengo valores
+				
+				String participante = linea.split(",")[0];		//separo por comas y genero cada variable correspondiente
+				String equipo1 = linea.split(",")[1];
+				String gana1 = linea.split(",")[2];
+				String empate = linea.split(",")[3];
+				String gana2 = linea.split(",")[4];
+				String equipo2 = linea.split(",")[5];
+				int idPartido = Integer.parseInt(linea.split(",")[6]);
+				int idPersona = Integer.parseInt(linea.split(",")[7]);
+				int idPronostico = Integer.parseInt(linea.split(",")[8]);
+				
+				
+				ps.setString(1, participante);		//paso los datos en orden al objeto ps que contiene la query que se esta preparando 
+				ps.setString(2, equipo1);
+				ps.setString(3, gana1);
+				ps.setString(4, empate);
+				ps.setString(5, gana2);
+				ps.setString(6, equipo2);
+				ps.setInt(7, idPartido);
+				ps.setInt(8, idPersona);
+				ps.setInt(9, idPronostico);
+				ps.executeUpdate(); // se ejecuta la sentencia
+			}
+			ps.close();
+			stmt.close();
+			con.close();		//cierro la conexion a la base de datos
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void setResultados(List<String> lineasResultado) {
+		try {
+			Connection con = DriverManager.getConnection("jdbc:" + this.getApi() + "://" + this.getIp() + "/" + this.getDbName(), this.getUsuario(),this.getPass());// conexion
+			Statement stmt = con.createStatement();		//objeto para ejecutar las querys
+			String sql = "-- Table: public.resultados\r\n"
+					+ "\r\n"
+					+ "-- DROP TABLE IF EXISTS public.resultados;\r\n"
+					+ "\r\n"
+					+ "CREATE TABLE IF NOT EXISTS public.resultados\r\n"
+					+ "(\r\n"
+					+ "    ronda character varying COLLATE pg_catalog.\"default\",\r\n"
+					+ "    equipo_1 character varying COLLATE pg_catalog.\"default\",\r\n"
+					+ "    \"golesEquipo_1\" bigint,\r\n"
+					+ "    \"golesEquipo_2\" bigint,\r\n"
+					+ "    equipo_2 character varying COLLATE pg_catalog.\"default\",\r\n"
+					+ "    id_partido bigint NOT NULL,\r\n"
+					+ "    CONSTRAINT resultados_pkey PRIMARY KEY (id_partido)\r\n"
+					+ ")\r\n"
+					+ "\r\n"
+					+ "TABLESPACE pg_default;\r\n"
+					+ "\r\n"
+					+ "ALTER TABLE IF EXISTS public.resultados\r\n"
+					+ "    OWNER to postgres;";
+			
+			
+			
+			stmt.executeUpdate(sql);		//ejecuto la query
+			
+			sql = "INSERT INTO public.resultados (ronda, equipo_1, \"golesEquipo_1\", \"golesEquipo_2\", equipo_2, id_partido) " +
+	                 "VALUES (?, ?, ?, ?, ?, ?) " +
+	                 "ON CONFLICT (id_partido) DO UPDATE SET " +
+	                 "ronda = EXCLUDED.ronda, equipo_1 = EXCLUDED.equipo_1, " +
+	                 "\"golesEquipo_1\" = EXCLUDED.\"golesEquipo_1\", \"golesEquipo_2\" = EXCLUDED.\"golesEquipo_2\", " +
+	                 "equipo_2 = EXCLUDED.equipo_2";
+			PreparedStatement ps = con.prepareStatement(sql); 	//creo un objeto para preparar la query y pasar valores
+			
+			for(int i = 1; i<lineasResultado.size(); i++) {
+				String linea = lineasResultado.get(i);	//itero la list y obtengo valores
+				
+				String ronda = linea.split(",")[0];		//separo por comas y genero cada variable correspondiente
+				String equipo1 = linea.split(",")[1];
+				int goles1 = Integer.parseInt(linea.split(",")[2]);
+				int goles2 = Integer.parseInt(linea.split(",")[3]);
+				String equipo2 = linea.split(",")[4];
+				int idPartido = Integer.parseInt(linea.split(",")[5]);
+				
+				
+				ps.setString(1, ronda);		//paso los datos en orden al objeto ps que contiene la query que se esta preparando 
+				ps.setString(2, equipo1);
+				ps.setInt(3, goles1);
+				ps.setInt(4, goles2);
+				ps.setString(5, equipo2);
+				ps.setInt(6, idPartido);
 
+				ps.executeUpdate(); // se ejecuta la sentencia
+			}
+			ps.close();
+			stmt.close();
+			con.close();		//cierro la conexion a la base de datos
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public List<String> getResultados(){
+		List <String> partidosResultado = new ArrayList<>();
+		try {
+			
+			Connection con = DriverManager.getConnection("jdbc:" + this.getApi() + "://" + this.getIp() + "/" + this.getDbName(), this.getUsuario(),this.getPass());// conexion
+			Statement stmt = con.createStatement();
+			ResultSet rst = stmt.executeQuery("SELECT * FROM public.resultados");	//ejecuto la query y la almaceno en el objeto
+			
+			String cabecera = "Ronda,Equipo 1,Cant. Goles Equipo 1,Cant. Goles 2,Equipo 2,Id Partido";
+			partidosResultado.add(cabecera);
+			
+			while (rst.next()) {									//por cada iteracion de la bd, genero una linea y la agrego a la list
+					String linea = rst.getString("ronda") + "," +
+							rst.getString("equipo_1") + "," +
+							rst.getLong("golesEquipo_1") + "," +
+							rst.getLong("golesEquipo_2") + "," +
+							rst.getString("equipo_2") + "," +
+							rst.getLong("id_partido");
+					partidosResultado.add(linea);
+					
+			}
+			rst.close();
+			stmt.close();		//cierro la coneccion
+			con.close();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+		return partidosResultado;
+	}
 }
 
 
